@@ -6,6 +6,8 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: ./Dockerfile
+    networks:
+      - client-side
     ports:
       - 8080:80
     depends_on:
@@ -23,11 +25,13 @@ services:
     volumes:
       - ./backend:/home/node/app
       - node_modules_express:/home/node/app/node_modules
+    networks:
+      - client-side
+      - server-side
     ports:
       - 3000:3000
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
   nuxt:
     container_name: gc_frontend
@@ -37,9 +41,12 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=development
+    networks:
+      - client-side
     volumes:
       - ./frontend:/home/node/app
       - node_modules_nuxt:/home/node/app/node_modules
+      - node_modules_nuxt:/home/node/app/.nuxt
     ports:
       - 4000:4000
   
@@ -49,19 +56,20 @@ services:
     restart: always
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - server-side
     environment:
       - POSTGRES_USER=gc_user
       - POSTGRES_DB=gc_db
       - POSTGRES_PASSWORD=12345
     ports:
       - 5432:5432
-    healthcheck:
-      test: [ "CMD", "pg_isready" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+
+networks:
+  client-side:
+  server-side:
 
 volumes:
-  db-data:
-  node_modules_express:
-  node_modules_nuxt:
+  db-data: {}
+  node_modules_express: {}
+  node_modules_nuxt: {}

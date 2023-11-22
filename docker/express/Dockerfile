@@ -3,11 +3,8 @@ FROM node:21-alpine3.18
 WORKDIR /home/node/app
 
 COPY backend/package.json ./
+COPY backend/prisma ./prisma
 
 RUN npm install
 
-RUN npx prisma migrate dev --name init
-RUN npx prisma db seed
-RUN npx prisma generate
-
-CMD ["npm", "start-dev"]
+CMD ["npm" ,"run","start-dev"]
