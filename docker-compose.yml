@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  nginx:
+    container_name: gc_server
+    build:
+      context: ./docker/nginx
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:80
+    depends_on:
+      - express
+      - nuxt
+
+  express:
+    container_name: gc_backend
+    build:
+      context: .
+      dockerfile: ./docker/express/Dockerfile
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./backend:/home/node/app
+      - node_modules_express:/home/node/app/node_modules
+    ports:
+      - 3000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  nuxt:
+    container_name: gc_frontend
+    build:
+      context: .
+      dockerfile: ./docker/nuxt/Dockerfile
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/home/node/app
+      - node_modules_nuxt:/home/node/app/node_modules
+    ports:
+      - 4000:4000
+  
+  db:
+    container_name: gc_db
+    image: postgres:16.1
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=gc_user
+      - POSTGRES_DB=gc_db
+      - POSTGRES_PASSWORD=12345
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
+  node_modules_express:
+  node_modules_nuxt:
