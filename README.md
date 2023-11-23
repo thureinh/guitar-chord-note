@@ -7,5 +7,5 @@ Requires Docker to run.
 
 Run this command at the project location.
 ```sh
-docker-compose up d
+docker-compose up -d
 ```
