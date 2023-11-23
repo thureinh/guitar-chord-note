@@ -46,7 +46,7 @@ services:
     volumes:
       - ./frontend:/home/node/app
       - node_modules_nuxt:/home/node/app/node_modules
-      - node_modules_nuxt:/home/node/app/.nuxt
+      - /home/node/app/.nuxt
     ports:
       - 4000:4000
   
