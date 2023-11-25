@@ -24,7 +24,7 @@ services:
       - NODE_ENV=development
     volumes:
       - ./backend:/home/node/app
-      - node_modules_express:/home/node/app/node_modules
+      - /home/node/app/node_modules
     networks:
       - client-side
       - server-side
@@ -45,8 +45,9 @@ services:
       - client-side
     volumes:
       - ./frontend:/home/node/app
-      - node_modules_nuxt:/home/node/app/node_modules
-      - node_modules_nuxt:/home/node/app/.nuxt
+      - /home/node/app/node_modules
+      - /home/node/app/.nuxt
+      - /home/node/app/app
     ports:
       - 4000:4000
   
@@ -66,10 +67,8 @@ services:
       - 5432:5432
 
 networks:
-  client-side:
-  server-side:
+  client-side: {}
+  server-side: {}
 
 volumes:
   db-data: {}
-  node_modules_express: {}
-  node_modules_nuxt: {}
