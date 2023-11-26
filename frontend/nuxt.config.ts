@@ -5,11 +5,16 @@ export default defineNuxtConfig({
     port: 4000,
     host: '0.0.0.0'
   },
-  modules: ['@nuxt/ui', '@sidebase/nuxt-auth'],
-  ui: {
-    primary: 'green',
-    gray: 'cool'
+  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
+  postcss: {
+    plugins: {
+      'postcss-import': {},
+      'tailwindcss/nesting': 'postcss-nesting',
+      tailwindcss: {},
+      autoprefixer: {},
+    }
   },
+  css: ['~/assets/css/main.css'],
   build: {
     transpile: ['jsonwebtoken']
   },
