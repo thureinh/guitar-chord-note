@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     port: 4000,
     host: '0.0.0.0'
   },
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
+  modules: ['@sidebase/nuxt-auth', '@pinia/nuxt', '@nuxtjs/tailwindcss'],
   postcss: {
     plugins: {
       'postcss-import': {},
