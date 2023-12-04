@@ -6,7 +6,13 @@ const password = ref('')
 
 <template>
   <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
-    <CardBox :class="cardClass" is-form @submit.prevent="signIn({username, password}, { callbackUrl: '/admin' })">
+    <CardBox
+      :class="cardClass"
+      is-form
+      @submit.prevent="
+        signIn({ username, password }, { callbackUrl: '/admin' })
+      "
+    >
       <FormField label="Login" help="Please enter your login">
         <FormControl
           v-model="username"

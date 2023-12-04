@@ -1,44 +1,35 @@
 <script setup>
-import { mdiForwardburger, mdiBackburger, mdiMenu } from '@mdi/js'
-import menuAside from '~/configs/menuAside.js'
-import menuNavBar from '~/configs/menuNavBar.js'
-import { useDarkModeStore } from '@/stores/darkMode.js'
-import BaseIcon from '@/components/BaseIcon.vue'
-import FormControl from '@/components/FormControl.vue'
-import NavBar from '@/components/NavBar.vue'
-import NavBarItemPlain from '@/components/NavBarItemPlain.vue'
-import AsideMenu from '@/components/AsideMenu.vue'
-import FooterBar from '@/components/FooterBar.vue'
+import { mdiForwardburger, mdiBackburger, mdiMenu } from "@mdi/js";
 
-const layoutAsidePadding = 'xl:pl-60'
+const layoutAsidePadding = "xl:pl-60";
 
-const darkModeStore = useDarkModeStore()
+const darkModeStore = useDarkModeStore();
 
-const router = useRouter()
+const router = useRouter();
 
-const isAsideMobileExpanded = ref(false)
-const isAsideLgActive = ref(false)
+const isAsideMobileExpanded = ref(false);
+const isAsideLgActive = ref(false);
 
 router.beforeEach(() => {
-  isAsideMobileExpanded.value = false
-  isAsideLgActive.value = false
-})
+  isAsideMobileExpanded.value = false;
+  isAsideLgActive.value = false;
+});
 
 const menuClick = (event, item) => {
   if (item.isToggleLightDark) {
-    darkModeStore.set()
+    darkModeStore.set();
   }
 
   if (item.isLogout) {
     //
   }
-}
+};
 </script>
 
 <template>
   <div
     :class="{
-      'overflow-hidden lg:overflow-visible': isAsideMobileExpanded
+      'overflow-hidden lg:overflow-visible': isAsideMobileExpanded,
     }"
   >
     <div
@@ -47,22 +38,37 @@ const menuClick = (event, item) => {
     >
       <NavBar
         :menu="menuNavBar"
-        :class="[layoutAsidePadding, { 'ml-60 lg:ml-0': isAsideMobileExpanded }]"
+        :class="[
+          layoutAsidePadding,
+          { 'ml-60 lg:ml-0': isAsideMobileExpanded },
+        ]"
         @menu-click="menuClick"
       >
         <NavBarItemPlain
           display="flex lg:hidden"
           @click.prevent="isAsideMobileExpanded = !isAsideMobileExpanded"
         >
-          <BaseIcon :path="isAsideMobileExpanded ? mdiBackburger : mdiForwardburger" size="24" />
+          <BaseIcon
+            :path="isAsideMobileExpanded ? mdiBackburger : mdiForwardburger"
+            size="24"
+          />
         </NavBarItemPlain>
-        <NavBarItemPlain display="hidden lg:flex xl:hidden" @click.prevent="isAsideLgActive = true">
+        <NavBarItemPlain
+          display="hidden lg:flex xl:hidden"
+          @click.prevent="isAsideLgActive = true"
+        >
           <BaseIcon :path="mdiMenu" size="24" />
         </NavBarItemPlain>
         <NavBarItemPlain use-margin>
-          <FormControl placeholder="Search (ctrl+k)" ctrl-k-focus transparent borderless />
+          <FormControl
+            placeholder="Search (ctrl+k)"
+            ctrl-k-focus
+            transparent
+            borderless
+          />
         </NavBarItemPlain>
       </NavBar>
+
       <AsideMenu
         :is-aside-mobile-expanded="isAsideMobileExpanded"
         :is-aside-lg-active="isAsideLgActive"
@@ -73,7 +79,10 @@ const menuClick = (event, item) => {
       <slot />
       <FooterBar>
         Get more with
-        <a href="https://tailwind-vue.justboil.me/" target="_blank" class="text-blue-600"
+        <a
+          href="https://tailwind-vue.justboil.me/"
+          target="_blank"
+          class="text-blue-600"
           >Premium version</a
         >
       </FooterBar>
