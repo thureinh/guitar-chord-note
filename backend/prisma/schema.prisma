@@ -4,11 +4,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://gc_user:12345@gc_db:5432/gc_db?schema=public"
+  url      = env("DB_URL")
 }
 
 model User {
   id    Int     @id @default(autoincrement())
   email String  @unique
   name  String?
+  password String
+  role String
+  refreshToken String?
 }
